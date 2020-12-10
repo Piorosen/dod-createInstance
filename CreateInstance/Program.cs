@@ -28,13 +28,12 @@ namespace CreateInstance
                 int portInt = port.Next(4000, 5000);
                 var req = new RespondCreateInstance
                 {
-                    Id = clientId,
-                    Ip = p.Ip,
                     Port = portInt.ToString(),
-                    Password = "hello",
-                    Root = p.Id,
-                    Tag = p.Tag,
+                    Password = "root",
+                    Root = "root"
                 };
+
+                Console.WriteLine($"요청 : [{p.Os}], [{p.Ip}]");
 
                 var send = req.ToByteArray();
 
@@ -42,12 +41,13 @@ namespace CreateInstance
                 client.Close();
                 Console.WriteLine("Close : ");
                 clientId += 1;
-                string memory = "--memory=2g";
-                string cpu = "--cpu-period=100000 --cpu-quota=50000";
-                cpu = "--cpus=0.5";
+                string memory = $"--memory={p.Memory}g";
+                //string cpu = "--cpu-period=100000 --cpu-quota=50000";
+                string cpu = $"--cpus={p.Cpu}";
                 string portString = $"-p {portInt}:22";
+                
 
-                Process.Start(new ProcessStartInfo("/bin/bash", $"docker run -d {memory} {cpu} {portString} rastasheep/ubuntu-sshd:latest"));
+                Process.Start(new ProcessStartInfo("/usr/local/bin/docker", $"run -d {memory} {cpu} {portString} rastasheep/ubuntu-sshd:latest"));
             }
             //listener.Stop();
         }

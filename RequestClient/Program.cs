@@ -4,6 +4,9 @@ using System.Net.Sockets;
 using Proto.Network;
 using Google.Protobuf;
 using Google.Protobuf.Collections;
+using System.Net;
+using System.Linq;
+
 namespace RequestClient
 {
     class Program
@@ -12,16 +15,16 @@ namespace RequestClient
         {
             Console.WriteLine("CPU 성능 제한 : (50%)");
             Console.WriteLine("RAM 성능 : 2GB");
-            Console.WriteLine("아이디 : root");
-
+            Console.WriteLine("")
             TcpClient client = new TcpClient("127.0.0.1", 4000);
             var stream = client.GetStream();
-
+            var dns = Dns.GetHostAddresses(Dns.GetHostName());
             var req = new RequestCreateInstance
             {
-                Id = "root",
-                Ip = "127.0.0.1",
-                Tag = "null"
+                Cpu = 0.5f,
+                Ip = String.Join(" - ", dns.Select((e) => e.ToString())),
+                Memory = 2,
+                Os = Environment.OSVersion.ToString()
             };
 
             var send = req.ToByteArray();

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package proto.network;
+
+message RequestCreateInstance {
+    float cpu = 1;
+    int32 memory = 2;
+    string ip = 3;
+    string os = 4;
+}
+
+message RespondCreateInstance {
+    string port = 2;
+    string root = 3;
+    string password = 4;
+}
