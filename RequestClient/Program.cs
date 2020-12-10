@@ -36,9 +36,9 @@ namespace RequestClient
 
             var p = RespondCreateInstance.Parser.ParseFrom(a, 0, size);
 
-            Console.WriteLine($"계정 : {p.Root}, 비밀번호 : {p.Password}, 접근 포트 : {p.Port}\n 접속 권한이 생겼습니다.");
+            Console.WriteLine($"210.107.245.192 주소에, 계정 : {p.Root}, 비밀번호 : {p.Password}, 접근 포트 : {p.Port}\n 접속 권한이 생겼습니다.");
             StreamWriter sw = new StreamWriter("result.txt");
-            sw.Write($"계정 : {p.Root}, 비밀번호 : {p.Password}, 접근 포트 : {p.Port}\n 접속 권한이 생겼습니다.");
+            sw.Write($"210.107.245.192 주소에, 계정 : {p.Root}, 비밀번호 : {p.Password}, 접근 포트 : {p.Port}\n 접속 권한이 생겼습니다.");
             sw.Close();
         }
     }
