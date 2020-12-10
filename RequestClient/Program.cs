@@ -15,14 +15,14 @@ namespace RequestClient
         {
             Console.WriteLine("CPU 성능 제한 : (50%)");
             Console.WriteLine("RAM 성능 : 2GB");
-            Console.WriteLine("")
-            TcpClient client = new TcpClient("127.0.0.1", 4000);
+            Console.WriteLine("요청 위치 : 210.108");
+            TcpClient client = new TcpClient("210.107.245.192", 3999);
             var stream = client.GetStream();
             var dns = Dns.GetHostAddresses(Dns.GetHostName());
             var req = new RequestCreateInstance
             {
                 Cpu = 0.5f,
-                Ip = String.Join(" - ", dns.Select((e) => e.ToString())),
+                Ip = string.Join(" - ", dns.Select((e) => e.ToString())),
                 Memory = 2,
                 Os = Environment.OSVersion.ToString()
             };
@@ -36,8 +36,10 @@ namespace RequestClient
 
             var p = RespondCreateInstance.Parser.ParseFrom(a, 0, size);
 
-            Console.WriteLine($"{p.Id} : {p.Ip} : {p.Password} : {p.Port} : {p.Root} : {p.Tag}");
-            
+            Console.WriteLine($"계정 : {p.Root}, 비밀번호 : {p.Password}, 접근 포트 : {p.Port}\n 접속 권한이 생겼습니다.");
+            StreamWriter sw = new StreamWriter("result.txt");
+            sw.Write($"계정 : {p.Root}, 비밀번호 : {p.Password}, 접근 포트 : {p.Port}\n 접속 권한이 생겼습니다.");
+            sw.Close();
         }
     }
 }
