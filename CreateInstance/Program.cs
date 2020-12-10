@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using Google.Protobuf;
@@ -24,12 +25,12 @@ namespace CreateInstance
                 int size = client.GetStream().Read(a, 0, 1024);
                 var p = RequestCreateInstance.Parser.ParseFrom(a, 0, size);
 
-                
+                int portInt = port.Next(4000, 5000);
                 var req = new RespondCreateInstance
                 {
                     Id = clientId,
                     Ip = p.Ip,
-                    Port = port.Next(4000, 5000).ToString(),
+                    Port = portInt.ToString(),
                     Password = "hello",
                     Root = p.Id,
                     Tag = p.Tag,
@@ -41,8 +42,15 @@ namespace CreateInstance
                 client.Close();
                 Console.WriteLine("Close : ");
                 clientId += 1;
+                string memory = "--memory=2g";
+                string cpu = "--cpu-period=100000 --cpu-quota=50000";
+                cpu = "--cpus=0.5";
+                string portString = $"-p {portInt}:22";
+
+                Process.Start(new ProcessStartInfo("/bin/bash", $"docker run -d {memory} {cpu} {portString} rastasheep/ubuntu-sshd:latest"));
             }
             //listener.Stop();
         }
     }
 }
+//https://hub.docker.com/r/rastasheep/ubuntu-sshd/dockerfile

@@ -11,7 +11,7 @@ namespace RequestClient
         static void Main(string[] args)
         {
             Console.WriteLine("CPU 성능 제한 : (50%)");
-            Console.WriteLine("RAM 성능 : 4GB");
+            Console.WriteLine("RAM 성능 : 2GB");
             Console.WriteLine("아이디 : root");
 
             TcpClient client = new TcpClient("127.0.0.1", 4000);
