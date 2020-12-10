@@ -15,7 +15,7 @@ namespace RequestClient
         {
             Console.WriteLine("CPU 성능 제한 : (50%)");
             Console.WriteLine("RAM 성능 : 2GB");
-            Console.WriteLine("요청 위치 : 210.108");
+            Console.WriteLine("요청 위치 : 210.107.245.192");
             TcpClient client = new TcpClient("210.107.245.192", 3999);
             var stream = client.GetStream();
             var dns = Dns.GetHostAddresses(Dns.GetHostName());
@@ -29,7 +29,7 @@ namespace RequestClient
 
             var send = req.ToByteArray();
             stream.Write(send, 0, send.Length);
-            while (!client.GetStream().CanRead);
+            while (!client.GetStream().CanRead) ;
 
             byte[] a = new byte[1024];
             int size = client.GetStream().Read(a, 0, 1024);
@@ -40,6 +40,8 @@ namespace RequestClient
             StreamWriter sw = new StreamWriter("result.txt");
             sw.Write($"210.107.245.192 주소에, 계정 : {p.Root}, 비밀번호 : {p.Password}, 접근 포트 : {p.Port}\n 접속 권한이 생겼습니다.");
             sw.Close();
+
+            Console.Read();
         }
     }
 }
